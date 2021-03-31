@@ -53,17 +53,17 @@ void updateBrightnessVar(){
 }
 
 void setPluginBrightness() {
-  int pluginBrightness = 200;
+  int pluginBrightness = 100;
   if(BRIGHTNESS == 7){
     pluginBrightness = 0;
   } else if(BRIGHTNESS == 8){
-    pluginBrightness = 40;
+    pluginBrightness = 20;
   } else if(BRIGHTNESS == 9){
-    pluginBrightness = 80;
+    pluginBrightness = 40;
   } else if(BRIGHTNESS == 10){
-    pluginBrightness = 120;
+    pluginBrightness = 60;
   } else if(BRIGHTNESS == 11){
-    pluginBrightness = 160;
+    pluginBrightness = 80;
   }
   pm.setBrightness(pluginBrightness);  
 }

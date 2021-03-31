@@ -36,6 +36,7 @@ void loadSettings()
   if(preferences.getUInt("bright")){
     BRIGHTNESS = preferences.getUInt("bright");
     M5.Axp.ScreenBreath(BRIGHTNESS);
+    setPluginBrightness();
   }
   preferences.end();
 }
