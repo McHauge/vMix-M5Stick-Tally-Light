@@ -4,20 +4,20 @@ class PluginManager {
   public:
     PluginManager(){}
 
-    //M5TallyLEDHat ledHat;
+    M5TallyLEDHat ledHat;
     void setBrightness(int x) {
-      //ledHat.brightness(x);
+      ledHat.brightness(x);
     }
 
     void onLive(){
-      //ledHat.onLive();
+      ledHat.onLive();
     }
 
     void onPre() {
-      //ledHat.onPre();
+      ledHat.onPre();
     }
 
     void onSafe() {
-      //ledHat.onSafe();
+      ledHat.onSafe();
     }
 };

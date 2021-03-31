@@ -1,8 +1,10 @@
 #include "FastLED.h"
 
 #define LED_BRIGHTNESS     20    //VALUE FROM 0 TO 255
+#define DATA_PIN    26
 #define LED_TYPE    WS2811
 #define COLOR_ORDER GRB
+#define NUM_LEDS    126
 CRGB leds[NUM_LEDS];
 
 class M5TallyLEDHat{
