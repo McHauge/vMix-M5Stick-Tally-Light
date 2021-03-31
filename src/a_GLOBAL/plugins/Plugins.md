@@ -35,6 +35,10 @@ class Example{
 
         }
 
+		void setBrightness(int x) {
+
+		}
+		
         void onLive() {
 
         }
@@ -55,6 +59,7 @@ class Example{
 
 It's pretty self-explanatory: The `onLive`, `onPre`, `onSafe` and `onClear` methods are called whenever the state of the tally changes.
 When it switches to LIVE, the `onLive` function is called, the same counts for the other functions.
+There is also the `setBrightness` that will get updated whenever you change the screen brightness on the front.
 
 ### Hook into the code
 
@@ -68,6 +73,10 @@ class PluginManager {
     PluginManager(){}
 
     Example examplePlugin;
+    void setBrightness(int x) {
+      //examplePlugin.brightness(x);
+    }
+
     void onLive(){
       examplePlugin.onLive();
     }
