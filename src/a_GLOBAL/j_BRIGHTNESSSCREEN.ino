@@ -51,7 +51,25 @@ void updateBrightnessVar(){
   updateBrightness();
   showBrightnessScreen();
 }
+
+void setPluginBrightness() {
+  int pluginBrightness = 200;
+  if(BRIGHTNESS == 7){
+    pluginBrightness = 0;
+  } else if(BRIGHTNESS == 8){
+    pluginBrightness = 40;
+  } else if(BRIGHTNESS == 9){
+    pluginBrightness = 80;
+  } else if(BRIGHTNESS == 10){
+    pluginBrightness = 120;
+  } else if(BRIGHTNESS == 11){
+    pluginBrightness = 160;
+  }
+  pm.setBrightness(pluginBrightness);  
+}
+
 void updateBrightness(){
   M5.Axp.ScreenBreath(BRIGHTNESS);
+  setPluginBrightness();
   saveBrightness();
 }
