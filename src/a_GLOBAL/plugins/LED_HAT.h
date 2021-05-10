@@ -27,35 +27,98 @@ public:
 	M5TallyLEDHat(){
 		matrix.begin();
 		matrix.setTextWrap(true);
-		matrix.setBrightness(LED_BRIGHTNESS);
 		matrix.setTextColor(CRGB::White);
-		matrix.setRotation(0);
+		matrix.setBrightness(LED_BRIGHTNESS);
 	}
+
 
 	void brightness(int x) {
-		matrix.setBrightness(LED_BRIGHTNESS);
+		matrix.setBrightness(x);
 		matrix.show();
+		delay(1);
 	}
 
-	void onLive(int nr, int rotation) {
-		matrixSetScreen(nr, rotation, CRGB::Red);
+	int setRotation(int r) {
+		int rotation = 0;
+		// Remap rotation to match the LED Matrix
+		switch (r) {
+			case 0:	rotation = 1; break;
+			case 1:	rotation = 0; break;
+			case 2:	rotation = 3; break;
+			case 3:	rotation = 2; break;
+			default: break;
+		}
+		matrix.setRotation(rotation);
+		return rotation;
 	}
 
-	void onPre(int nr, int rotation) {
-		matrixSetScreen(nr, rotation, CRGB::Green);
-  }
-
-  void onSafe(int nr, int rotation) {
-		matrixSetScreen(nr, rotation, CRGB::Black);
-  }
-
-  void onClear() {
-		matrix.fill(CRGB::Black);
+	void clearDisp() {
 		matrix.clear();
-		matrix.show();
-  }
+		showDisp();
+	}
 
-  void onUpdate(int nr, int nr_mode, int r) {
+	void showDisp() {
+		matrix.show();	
+	}
+
+	void setLive() {
+		matrix.fill(CRGB::Red);
+	}
+
+	void setPreview() {
+		matrix.fill(CRGB::Green);
+	}
+
+	void setSafe() {
+		matrix.fill(CRGB::Black);
+	}
+
+	void showNumber(int nr, int r) {
+		int rotation = setRotation(r);
+
+		if (nr == 0) { 
+			matrix.print("");
+			return;
+		}		
+		
+		// Set correct pixel offset based on Rotation and number
+		if(rotation == 1 || rotation == 3){ // Potrate
+			if (nr <= 9) { 					// Set Caractor offset for inputs 1-9
+				matrix.setCursor(1, 5);
+				matrix.print(String(nr));
+			} else {						// Set Caractor offset for inputs 10 and above
+				matrix.setCursor(1, 1);
+				matrix.print(String(nr).substring(0,1));
+				matrix.setCursor(1, 9);
+				matrix.print(String(nr).substring(1));
+			}
+		} else { 							// Landscape
+			if (nr <= 9) { 					// Set Caractor offset for inputs 1-9
+				matrix.setCursor(7, 0);
+				matrix.print(String(nr));
+			} else { 						// Set Caractor offset for inputs 10 and above
+				matrix.setCursor(3, 0);
+				matrix.print(String(nr));
+			}
+		}		
+	}
+
+/*
+	void onLive(int nr, int m, int rotation) {
+		matrixSetScreen(nr, m, rotation, CRGB::Red);
+	}
+
+	void onPre(int nr, int m, int rotation) {
+		matrixSetScreen(nr, m, rotation, CRGB::Green);
+	}
+
+	void onSafe(int nr, int m, int rotation) {
+		matrixSetScreen(nr, m, rotation, CRGB::Black);
+	}
+*/
+
+/*
+  void onUpdate(int nr, int m, int r) {
 
 		int rotation = 0;
 		// Remap rotation to match the LED Matrix
@@ -91,12 +154,20 @@ public:
 			}
 		}
 
-		matrix.setTextColor(CRGB::White);
+		switch (m) {
+			case 0:	matrix.setTextColor(CRGB::White); break;
+			case 1:	matrix.setTextColor(CRGB::Red); break;
+			case 2:	matrix.setTextColor(CRGB::Green); break;
+			case 3:	matrix.setTextColor(CRGB::White); break;
+			default: break;
+		}
+
 		matrix.show();
   }
+*/
   
-  void matrixSetScreen(int nr, int r, int c) {
-		
+  void matrixSetScreen(int nr, int m, int r, int c) {
+				
 		if (nr == 0) { 
 			matrix.fill(c);	
 			matrix.show();
@@ -116,6 +187,14 @@ public:
 		matrix.fill(c);	
 		matrix.setRotation(rotation);
 
+		switch (m) {
+			case 0:	matrix.setTextColor(CRGB::White); break;
+			case 1:	matrix.setTextColor(CRGB::Red); break;
+			case 2:	matrix.setTextColor(CRGB::Green); break;
+			case 3:	matrix.setTextColor(CRGB::White); break;
+			default: break;
+		}
+
 		// Set correct pixel offset based on Rotation and number
 		if(rotation == 1 || rotation == 3){ // Potrate
 			if (nr <= 9) { 					// Set Caractor offset for inputs 1-9
@@ -137,7 +216,6 @@ public:
 			}
 		}
 
-		matrix.setTextColor(CRGB::White);	
 		matrix.show();
   }
 

@@ -24,6 +24,7 @@ void loadSettings()
 
   CONN_INT = preferences.getUInt("conn_int") || CONN_INT;
   MODE = preferences.getUInt("mode") || MODE;
+  PM_MODE = preferences.getUInt("pmmode", PM_MODE);
   JUSTLIVE = preferences.getUInt("justLive") || JUSTLIVE;
 
   if(preferences.getString("m_tally").length() > 0){

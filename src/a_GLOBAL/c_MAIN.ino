@@ -4,7 +4,8 @@ WebServer server(80);  // Object of WebServer(HTTP port, 80 is defult)
 PinButton btnM5(37);
 PinButton btnAction(39);
 
-PluginManager pm;
+M5TallyLEDHat ledHat;
+//PluginManager pm; // Became to compersome to maintain two identical layouts 
 
 char currentState = -1;
 char screen = 0;
@@ -175,7 +176,6 @@ void loop()
     Serial.println("Not connected anymore");
     noConnectionTovMix();
   }
-//  pm.onLoop();  
 }
 
 void cls()
@@ -193,6 +193,7 @@ void start()
   
   String prod = "vMix M5Stick-C Tally";
   String author = "by Guido Visser";
+  String coop = "& McHauge";
   
   M5.Lcd.setTextSize(1);
   M5.Lcd.setTextColor(WHITE, BLACK);
@@ -200,8 +201,10 @@ void start()
   M5.Lcd.println("v"+semver);
   M5.Lcd.setCursor(lcdCoordX(20), lcdCoordY(20));
   M5.Lcd.println(prod);
-  M5.Lcd.setCursor(lcdCoordX(35), lcdCoordY(40));
+  M5.Lcd.setCursor(lcdCoordX(35), lcdCoordY(35));
   M5.Lcd.println(author);
+  M5.Lcd.setCursor(lcdCoordX(50), lcdCoordY(45));
+  M5.Lcd.println(coop);
   
   delay(2000);
 
@@ -210,7 +213,7 @@ void start()
 
 void resetScreen(){
   cls();
-  pm.onClear();
+//  ledHat.clearDisp();
   digitalWrite(LED_BUILTIN, HIGH);
   M5.Lcd.setCursor(0, 0);
   M5.Lcd.fillScreen(TFT_BLACK);
@@ -244,6 +247,7 @@ int getBatteryLevel(void)
 }
 
 void renderCurrentScreen(){
+  renderCurentMatrix();
   if(!client.connected()){
     return;
   }

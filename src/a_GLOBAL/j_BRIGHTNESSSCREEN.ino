@@ -65,7 +65,7 @@ void setPluginBrightness() {
   } else if(BRIGHTNESS == 11){
     pluginBrightness = 80;
   }
-  pm.setBrightness(pluginBrightness);  
+  ledHat.brightness(pluginBrightness);
 }
 
 void updateBrightness(){

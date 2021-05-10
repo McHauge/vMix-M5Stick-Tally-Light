@@ -114,11 +114,7 @@ void setTallyProgram()
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-  int x = TALLY_NR;
-  if (PM_MODE == 1) {x = PGM_NR;}
-  else if (PM_MODE == 2) {x = PVW_NR;}
-  else if (PM_MODE == 3) {x = 0;}  
-  pm.onLive(x, PM_MODE, screenRotation);
+//  ledHat.setLive();
 }
 
 void setTallyPreview() {
@@ -140,11 +136,7 @@ void setTallyPreview() {
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-  int x = TALLY_NR;
-  if (PM_MODE == 1) {x = PGM_NR;}
-  else if (PM_MODE == 2) {x = PVW_NR;}
-  else if (PM_MODE == 3) {x = 0;}  
-  pm.onPre(x, PM_MODE, screenRotation);
+//  ledHat.setPreview();
 }
 
 void setTallyOff() {
@@ -166,17 +158,14 @@ void setTallyOff() {
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-  int x = TALLY_NR;
-  if (PM_MODE == 1) {x = PGM_NR;}
-  else if (PM_MODE == 2) {x = PVW_NR;}
-  else if (PM_MODE == 3) {x = 0;}  
-  pm.onSafe(x, PM_MODE, screenRotation);
+//  ledHat.setSafe();
 }
 
 // Handle incoming data
 void handleData(String data)
 {
   bool changed = false;
+  bool tallyChange = false;
   // Check if server data is tally data
   if (data.indexOf("TALLY") == 0)
   {
@@ -197,23 +186,16 @@ void handleData(String data)
         PVW_NR = i + 1;  // check what input is on preview
       }
     }
-
-    if (PM_MODE == 1) {
-      if (PGM_NR == TALLY_NR) { pm.onLive(TALLY_NR, PM_MODE, screenRotation); }
-      else { pm.onUpdate(PGM_NR, PM_MODE, screenRotation);}
-    }
-    else if (PM_MODE == 2) {
-      if (PVW_NR == TALLY_NR) { pm.onPre(TALLY_NR, PM_MODE, screenRotation); }
-      else { pm.onUpdate(PVW_NR, PM_MODE, screenRotation);}
-    }
-
+    tallyChange = true;
+    
     // Check if tally state has changed
     if (currentState != newState || screen == 1)
     {
       currentState = newState;
-      changed = true;
       if (M_TALLY == "") {
         showTallyScreen();
+        renderCurentMatrix();
+        tallyChange = false;
       }
     }
     if (M_TALLY != "") {
@@ -239,9 +221,14 @@ void handleData(String data)
           pch = strtok(NULL, ",");
         }
       }
-      if (changed) {
+      if (changed == true) {
         showTallyScreen();
+        renderCurentMatrix();
+        tallyChange = false;
       }
+    }
+    if (tallyChange == true) {
+      renderCurentMatrix();
     }
   }
   else
@@ -266,41 +253,61 @@ void handleData(String data)
 }
 
 void showTallyScreen() {
-  cls();
+  cls();              // Clear Screen
+//  ledHat.clearDisp(); // Clear LED Matrix
   screen = 0;
   if (C_PLUS) {
     M5.Lcd.setTextSize(8);
   } else {
     M5.Lcd.setTextSize(5);
   }
+
   if (!JUSTLIVE) {
-    switch (currentState)
-    {
-      case '0':
-        setTallyOff();
-        break;
-      case '1':
-        setTallyProgram();
-        break;
-      case '2':
-        setTallyPreview();
-        break;
-      default:
-        setTallyOff();
+    switch (currentState) {
+      case '0': setTallyOff();     break;
+      case '1': setTallyProgram(); break;
+      case '2': setTallyPreview(); break;
+      default: setTallyOff();
     }
   } else {
-    switch (currentState)
-    {
-      case '1':
-        setTallyProgram();
-        break;
-      default:
-        setTallyOff();
+    switch (currentState){
+      case '1': setTallyProgram(); break;
+      default: setTallyOff();
     }
   }
 
+//  ledHat.showDisp();  // Show the LED Matrix Display
   renderBatteryLevel();
   showStatus();
+}
+
+void renderCurentMatrix() {
+    ledHat.clearDisp();
+    
+    if (!JUSTLIVE) {
+    switch (currentState) {
+      case '0': ledHat.setSafe(); break;
+      case '1': ledHat.setLive(); break;
+      case '2': ledHat.setPreview(); break;
+      default: ledHat.setSafe();
+    }
+  } else {
+    switch (currentState){
+      case '1': ledHat.setLive(); break;
+      default: ledHat.setSafe();
+    }
+  }
+
+  Serial.print("PM_MODE: ");
+  Serial.println(PM_MODE);
+  switch (PM_MODE){
+    case 0: ledHat.showNumber(TALLY_NR, screenRotation); break;
+    case 1: ledHat.showNumber(PGM_NR, screenRotation);   break;
+    case 2: ledHat.showNumber(PVW_NR, screenRotation);   break;
+    //case 3: ledHat.showNumber(0, screenRotation);      break;
+    default: ledHat.showNumber(0, screenRotation);
+  }
+  ledHat.showDisp();  // Show the LED Matrix Display
 }
 
 void showStatus() {

@@ -5,20 +5,24 @@ class PluginManager {
     PluginManager(){}
 
     M5TallyLEDHat ledHat;
-    void setBrightness(int x) {
+    
+    void setPmBrightness(int x) {
       ledHat.brightness(x);
     }
 
     void onLive(int nr, int nr_mode, int rotation){
-      ledHat.onLive(nr, rotation);
+//      Serial.print(nr_mode);
+      ledHat.onLive(nr, nr_mode, rotation);
     }
 
     void onPre(int nr, int nr_mode, int rotation) {
-      ledHat.onPre(nr, rotation);
+//      Serial.print(nr_mode);
+      ledHat.onPre(nr, nr_mode, rotation);
     }
 
     void onSafe(int nr, int nr_mode, int rotation) {
-      ledHat.onSafe(nr, rotation);
+//      Serial.print(nr_mode);
+      ledHat.onSafe(nr, nr_mode, rotation);
     }
 
     void onClear() {
@@ -26,7 +30,8 @@ class PluginManager {
     }
 
     void onUpdate(int nr, int nr_mode, int rotation) {
-      ledHat.onUpdate(nr, nr_mode, rotation);      
+//      Serial.print(nr_mode);
+//      ledHat.onUpdate(nr, nr_mode, rotation);      
     }
     
     void onLoop() {
