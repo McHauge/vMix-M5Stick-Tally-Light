@@ -21,7 +21,7 @@ boolean connectTovMix(bool recursive)
   }
   else
   {
-    if(recursive){
+    if (recursive) {
       return false;
     }
     char tryCount = 0;
@@ -44,7 +44,7 @@ boolean connectTovMix(bool recursive)
   }
 }
 
-void singleReconnect(){
+void singleReconnect() {
   resetScreen();
   M5.Lcd.println("Connecting to vMix...");
   if (client.connect(&(VMIX_IP[0]), VMIX_PORT))
@@ -76,18 +76,18 @@ boolean retryConnectionvMix(int tryCount) {
   return true;
 }
 
-void posTallyNums(){
+void posTallyNums() {
   int y = lcdCoordY(70);
   int x = lcdCoordX(30);
-  if(screenRotation == 1 || screenRotation == 3){  
+  if (screenRotation == 1 || screenRotation == 3) {
     x = lcdCoordX(70);
     y = lcdCoordY(23);
-    if(tnlen == 2){
+    if (tnlen == 2) {
       x = lcdCoordX(50);
     }
     M5.Lcd.setCursor(x, y);
   } else {
-    if(tnlen == 2){
+    if (tnlen == 2) {
       x = lcdCoordX(10);
     }
     M5.Lcd.setCursor(x, y);
@@ -96,69 +96,81 @@ void posTallyNums(){
 
 void setTallyProgram()
 {
-//  digitalWrite(LED_BUILTIN, LOW);
+  //  digitalWrite(LED_BUILTIN, LOW);
   M5.Lcd.fillScreen(RED);
   M5.Lcd.setTextColor(WHITE, RED);
-  if(screenRotation == 1 || screenRotation == 3){
+  if (screenRotation == 1 || screenRotation == 3) {
     M5.Lcd.setCursor(lcdCoordX(25), lcdCoordY(23));
-    if(MODE == 0){
+    if (MODE == 0) {
       M5.Lcd.println("LIVE");
     }
-  } else if(screenRotation == 0 || screenRotation == 2) {
+  } else if (screenRotation == 0 || screenRotation == 2) {
     M5.Lcd.setCursor(lcdCoordX(30), lcdCoordY(70));
-    if(MODE == 0){
+    if (MODE == 0) {
       M5.Lcd.println("L");
     }
   }
-  if(MODE == 1){
+  if (MODE == 1) {
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-  pm.onLive(TALLY_NR, screenRotation);
+  int x = TALLY_NR;
+  if (PM_MODE == 1) {x = PGM_NR;}
+  else if (PM_MODE == 2) {x = PVW_NR;}
+  else if (PM_MODE == 3) {x = 0;}  
+  pm.onLive(x, PM_MODE, screenRotation);
 }
 
 void setTallyPreview() {
   // digitalWrite(LED_BUILTIN, HIGH);
   M5.Lcd.fillScreen(GREEN);
   M5.Lcd.setTextColor(BLACK, GREEN);
-  if(screenRotation == 1 || screenRotation == 3){
+  if (screenRotation == 1 || screenRotation == 3) {
     M5.Lcd.setCursor(lcdCoordX(40), lcdCoordY(23));
-    if(!JUSTLIVE && MODE == 0){
+    if (!JUSTLIVE && MODE == 0) {
       M5.Lcd.println("PRE");
     }
-  } else if(screenRotation == 0 || screenRotation == 2) {
+  } else if (screenRotation == 0 || screenRotation == 2) {
     M5.Lcd.setCursor(lcdCoordX(30), lcdCoordY(70));
-    if(!JUSTLIVE && MODE == 0){
+    if (!JUSTLIVE && MODE == 0) {
       M5.Lcd.println("P");
     }
   }
-  if(MODE == 1){
+  if (MODE == 1) {
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-  pm.onPre(TALLY_NR, screenRotation);
+  int x = TALLY_NR;
+  if (PM_MODE == 1) {x = PGM_NR;}
+  else if (PM_MODE == 2) {x = PVW_NR;}
+  else if (PM_MODE == 3) {x = 0;}  
+  pm.onPre(x, PM_MODE, screenRotation);
 }
 
 void setTallyOff() {
   // digitalWrite(LED_BUILTIN, HIGH);
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setTextColor(WHITE, BLACK);
-  if(screenRotation == 1 || screenRotation == 3){
+  if (screenRotation == 1 || screenRotation == 3) {
     M5.Lcd.setCursor(lcdCoordX(23), lcdCoordY(23));
-    if(!JUSTLIVE && MODE == 0){
+    if (!JUSTLIVE && MODE == 0) {
       M5.Lcd.println("SAFE");
     }
-  } else if(screenRotation == 0 || screenRotation == 2) {
+  } else if (screenRotation == 0 || screenRotation == 2) {
     M5.Lcd.setCursor(lcdCoordX(30), lcdCoordY(70));
-    if(!JUSTLIVE && MODE == 0){
+    if (!JUSTLIVE && MODE == 0) {
       M5.Lcd.println("S");
     }
   }
-  if(MODE == 1){
+  if (MODE == 1) {
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-  pm.onSafe(TALLY_NR, screenRotation);
+  int x = TALLY_NR;
+  if (PM_MODE == 1) {x = PGM_NR;}
+  else if (PM_MODE == 2) {x = PVW_NR;}
+  else if (PM_MODE == 3) {x = 0;}  
+  pm.onSafe(x, PM_MODE, screenRotation);
 }
 
 // Handle incoming data
@@ -169,56 +181,85 @@ void handleData(String data)
   if (data.indexOf("TALLY") == 0)
   {
     char newState = data.charAt(TALLY_NR + 8);
+
+    // Parse so we only have the tally digits and store then to a char array
+    String a_data = data.substring(9);
+    int b_char_len = a_data.length() + 1;
+    char b_char[b_char_len];
+    a_data.toCharArray(b_char, b_char_len);
+
+    // Check each input for what input is curently on PGM and PVW and store it
+    for (int i = 0; i < b_char_len; i++) {
+      if (b_char[i] == '1') {
+        PGM_NR = i + 1;  // check what input is on program
+      }
+      else if (b_char[i] == '2') {
+        PVW_NR = i + 1;  // check what input is on preview
+      }
+    }
+
+    if (PM_MODE == 1) {
+      if (PGM_NR == TALLY_NR) { pm.onLive(TALLY_NR, PM_MODE, screenRotation); }
+      else { pm.onUpdate(PGM_NR, PM_MODE, screenRotation);}
+    }
+    else if (PM_MODE == 2) {
+      if (PVW_NR == TALLY_NR) { pm.onPre(TALLY_NR, PM_MODE, screenRotation); }
+      else { pm.onUpdate(PVW_NR, PM_MODE, screenRotation);}
+    }
+
     // Check if tally state has changed
     if (currentState != newState || screen == 1)
     {
       currentState = newState;
       changed = true;
-      if(M_TALLY == ""){
+      if (M_TALLY == "") {
         showTallyScreen();
       }
     }
-    if(M_TALLY != ""){
-      if(currentState != '1' && M_TALLY != ""){
+    if (M_TALLY != "") {
+      if (currentState != '1' && M_TALLY != "") {
         int str_len = M_TALLY.length() + 1;
-       
-        // Prepare the character array (the buffer) 
+
+        // Prepare the character array (the buffer)
         char str[str_len];
-         
-        // Copy it over 
+
+        // Copy it over
         M_TALLY.toCharArray(str, str_len);
-        
+
         char * pch;
         pch = strtok(str, ",");
         while (pch != NULL)
         {
           String c(pch);
           char newMState = data.charAt(c.toInt() + 8);
-          if((currentState == '0' && (newMState == '1' || newMState == '2')) || (currentState == '2' && (newMState == '1'))){
+          if ((currentState == '0' && (newMState == '1' || newMState == '2')) || (currentState == '2' && (newMState == '1'))) {
             currentState = newMState;
             changed = true;
           }
           pch = strtok(NULL, ",");
         }
       }
-      if(changed){
+      if (changed) {
         showTallyScreen();
       }
     }
   }
   else
   {
-    if(data.indexOf("ACTS OK Recording 1") == 0){
+    if (data.indexOf("ACTS OK Recording 1") == 0) {
       rec = 1;
-    } else if(data.indexOf("ACTS OK Recording 0") == 0){
+    } else if (data.indexOf("ACTS OK Recording 0") == 0) {
       rec = 0;
-    } else if(data.indexOf("ACTS OK Streaming 1") == 0) {
+    } else if (data.indexOf("ACTS OK Streaming 1") == 0) {
       stm = 1;
-    } else if(data.indexOf("ACTS OK Streaming 0") == 0){
+    } else if (data.indexOf("ACTS OK Streaming 0") == 0) {
       stm = 0;
     } else {
       Serial.print("Response from vMix: ");
       Serial.println(data);
+
+      // Print out what's curently on PGM and PVW
+      Serial.println("PGM: " + String(PGM_NR) + " PVW: " + String(PVW_NR));
     }
     showStatus();
   }
@@ -227,12 +268,12 @@ void handleData(String data)
 void showTallyScreen() {
   cls();
   screen = 0;
-  if(C_PLUS){
+  if (C_PLUS) {
     M5.Lcd.setTextSize(8);
   } else {
     M5.Lcd.setTextSize(5);
   }
-  if(!JUSTLIVE){
+  if (!JUSTLIVE) {
     switch (currentState)
     {
       case '0':
@@ -257,58 +298,58 @@ void showTallyScreen() {
         setTallyOff();
     }
   }
-  
+
   renderBatteryLevel();
   showStatus();
 }
 
-void showStatus(){
-  if(C_PLUS){
+void showStatus() {
+  if (C_PLUS) {
     M5.Lcd.setTextSize(2);
   } else {
     M5.Lcd.setTextSize(1);
   }
 
-  if(screenRotation == 1 || screenRotation == 3){
-    if(C_PLUS){
-      M5.Lcd.setCursor(200,0);
+  if (screenRotation == 1 || screenRotation == 3) {
+    if (C_PLUS) {
+      M5.Lcd.setCursor(200, 0);
     } else {
-      M5.Lcd.setCursor(140,0);
+      M5.Lcd.setCursor(140, 0);
     }
   } else {
-    if(C_PLUS){
-      M5.Lcd.setCursor(95,220); 
+    if (C_PLUS) {
+      M5.Lcd.setCursor(95, 220);
     } else {
-      M5.Lcd.setCursor(60,150); 
+      M5.Lcd.setCursor(60, 150);
     }
   }
-  if(rec){
+  if (rec) {
     M5.Lcd.print("REC");
   } else {
     M5.Lcd.print("   ");
   }
 
-  if(screenRotation == 1 || screenRotation == 3){
-    if(C_PLUS){
-      M5.Lcd.setCursor(150,0);
+  if (screenRotation == 1 || screenRotation == 3) {
+    if (C_PLUS) {
+      M5.Lcd.setCursor(150, 0);
     } else {
-      M5.Lcd.setCursor(110,0); 
+      M5.Lcd.setCursor(110, 0);
     }
   } else {
-    if(C_PLUS){
-      M5.Lcd.setCursor(10,220); 
+    if (C_PLUS) {
+      M5.Lcd.setCursor(10, 220);
     } else {
-      M5.Lcd.setCursor(0,150); 
+      M5.Lcd.setCursor(0, 150);
     }
   }
-  if(stm){
+  if (stm) {
     M5.Lcd.print("STM");
   } else {
     M5.Lcd.print("   ");
   }
 }
 
-void noConnectionTovMix(){
+void noConnectionTovMix() {
   resetScreen();
   M5.Lcd.println("Couldn't connect to vMix");
   M5.Lcd.println();

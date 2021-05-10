@@ -9,23 +9,26 @@ class PluginManager {
       ledHat.brightness(x);
     }
 
-    void onLive(int nr, int rotation){
+    void onLive(int nr, int nr_mode, int rotation){
       ledHat.onLive(nr, rotation);
     }
 
-    void onPre(int nr, int rotation) {
+    void onPre(int nr, int nr_mode, int rotation) {
       ledHat.onPre(nr, rotation);
     }
 
-    void onSafe(int nr, int rotation) {
+    void onSafe(int nr, int nr_mode, int rotation) {
       ledHat.onSafe(nr, rotation);
     }
 
     void onClear() {
       ledHat.onClear();      
     }
+
+    void onUpdate(int nr, int nr_mode, int rotation) {
+      ledHat.onUpdate(nr, nr_mode, rotation);      
+    }
     
     void onLoop() {
-//      ledHat.onLoop();
     }
 };
