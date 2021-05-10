@@ -114,7 +114,7 @@ void setTallyProgram()
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-  pm.onLive();
+  pm.onLive(TALLY_NR, screenRotation);
 }
 
 void setTallyPreview() {
@@ -136,7 +136,7 @@ void setTallyPreview() {
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-  pm.onPre();
+  pm.onPre(TALLY_NR, screenRotation);
 }
 
 void setTallyOff() {
@@ -158,7 +158,7 @@ void setTallyOff() {
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-  pm.onSafe();
+  pm.onSafe(TALLY_NR, screenRotation);
 }
 
 // Handle incoming data

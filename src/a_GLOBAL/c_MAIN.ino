@@ -175,6 +175,7 @@ void loop()
     Serial.println("Not connected anymore");
     noConnectionTovMix();
   }
+//  pm.onLoop();  
 }
 
 void cls()
@@ -209,6 +210,7 @@ void start()
 
 void resetScreen(){
   cls();
+  pm.onClear();
   digitalWrite(LED_BUILTIN, HIGH);
   M5.Lcd.setCursor(0, 0);
   M5.Lcd.fillScreen(TFT_BLACK);
