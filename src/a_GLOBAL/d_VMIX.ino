@@ -298,14 +298,11 @@ void renderCurentMatrix() {
     }
   }
 
-  Serial.print("PM_MODE: ");
-  Serial.println(PM_MODE);
   switch (PM_MODE){
-    case 0: ledHat.showNumber(TALLY_NR, screenRotation); break;
-    case 1: ledHat.showNumber(PGM_NR, screenRotation);   break;
-    case 2: ledHat.showNumber(PVW_NR, screenRotation);   break;
-    //case 3: ledHat.showNumber(0, screenRotation);      break;
-    default: ledHat.showNumber(0, screenRotation);
+    case 0: ledHat.textColor(255, 255, 255);  ledHat.showNumber(TALLY_NR, screenRotation); break;
+    case 1: ledHat.textColor(255, 0, 0);      ledHat.showNumber(PGM_NR, screenRotation);   break;
+    case 2: ledHat.textColor(0, 255, 0);      ledHat.showNumber(PVW_NR, screenRotation);   break;
+    default: ledHat.textColor(255, 255, 255); ledHat.showNumber(0, screenRotation);        break;
   }
   ledHat.showDisp();  // Show the LED Matrix Display
 }

@@ -31,7 +31,6 @@ void loadSettings()
     M_TALLY = preferences.getString("m_tally");
   }
 
-  Serial.println("BRIGHTNESS");
   Serial.println(preferences.getUInt("bright"));
 
   if(preferences.getUInt("bright")){

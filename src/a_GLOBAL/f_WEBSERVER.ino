@@ -85,7 +85,6 @@ void handle_save()
   if (_pmmode != "") {
     PM_MODE = std::atoi(_pmmode.c_str());
     preferences.putUInt("pmmode", PM_MODE);
-//    Serial.println(PM_MODE);
     Serial.println("PUT PM_MODE");
   }
 
