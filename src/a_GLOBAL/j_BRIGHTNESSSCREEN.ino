@@ -1,4 +1,5 @@
 void showBrightnessScreen(){
+  Serial.println("Showing Brightness screen");
   screen = 3;
   screenRotation = 3;
   M5.Lcd.setRotation(3);
