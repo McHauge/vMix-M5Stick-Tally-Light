@@ -25,6 +25,7 @@ void loadSettings()
   CONN_INT = preferences.getUInt("conn_int") || CONN_INT;
   MODE = preferences.getUInt("mode") || MODE;
   PM_MODE = preferences.getUInt("pmmode", PM_MODE);
+  PM_COLOR = preferences.getUInt("pmcolor", PM_COLOR);
   JUSTLIVE = preferences.getUInt("justLive") || JUSTLIVE;
 
   if(preferences.getString("m_tally").length() > 0){
@@ -95,6 +96,12 @@ void saveBrightness(){
 void savePmMode(){
   preferences.begin("vMixTally", false);
   preferences.putUInt("pmmode", PM_MODE);
+  preferences.end();
+}
+
+void savePmColor(){
+  preferences.begin("vMixTally", false);
+  preferences.putUInt("pmcolor", PM_COLOR);
   preferences.end();
 }
 

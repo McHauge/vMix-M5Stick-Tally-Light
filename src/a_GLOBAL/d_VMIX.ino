@@ -294,7 +294,11 @@ void renderCurentMatrix() {
   }
 
   // Set LED Matrix Text Color
-  if (PGM_NR == TALLY_NR ||PVW_NR == TALLY_NR) {
+  if (PM_COLOR == 0) { // If text colors are disabled just use white
+    ledHat.textColor(255, 255, 255);    
+  } else if ( M_TALLY != "" && (currentState == '1' || currentState == '2') ) {
+    ledHat.textColor(255, 255, 255);
+  } else if (PGM_NR == TALLY_NR || PVW_NR == TALLY_NR) {
     ledHat.textColor(255, 255, 255);
   } else {
     switch (PM_MODE){
@@ -307,7 +311,15 @@ void renderCurentMatrix() {
 
   // Set LED Matrix Text
   switch (PM_MODE){
-    case 0:  ledHat.showNumber(TALLY_NR, screenRotation); break;
+    case 0:  // If we have multi inputs selected, show what input is on program (of the selected otherwise just the main input)
+      if ( M_TALLY != "" && currentState == '1' ) { // Check If any on Progam
+        ledHat.showNumber(PGM_NR, screenRotation); 
+      } else if ( M_TALLY != "" && currentState == '2' ) { // Check if any on Preview
+        ledHat.showNumber(PVW_NR, screenRotation); 
+      } else {
+        ledHat.showNumber(TALLY_NR, screenRotation);         
+      }
+      break;
     case 1:  ledHat.showNumber(PGM_NR, screenRotation);   break;
     case 2:  ledHat.showNumber(PVW_NR, screenRotation);   break;
     default: ledHat.showNumber(0, screenRotation);        break;
