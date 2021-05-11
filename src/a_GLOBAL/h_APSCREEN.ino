@@ -2,7 +2,7 @@ void showAPScreen()
 {
     resetScreen();
     Serial.println("Showing Access Point Screen");
-    screen = 5;
+    screen = 10;
     
     renderBatteryLevel();
     M5.Lcd.println();

@@ -64,6 +64,8 @@ void loop()
     } else if (screen == 3) {
       showPmModeScreen();
     } else if (screen == 4) {
+      showPmColorScreen();
+    } else if (screen == 5) {
       showTallyScreen();
     }
   }
@@ -123,6 +125,16 @@ void loop()
     }
   }
 
+  if(btnAction.isDoubleClick() && screen == 2){
+    increaseTally();
+    showTallyNum();
+  }
+
+  if(btnAction.isLongClick() && screen == 2){
+    resetTally();
+    showTallyNum();
+  }
+
   if(btnAction.isClick() && screen == 3){
      updateBrightnessVar();
   }
@@ -131,13 +143,8 @@ void loop()
      updatePmModeVar();
   }
 
-  if(btnAction.isDoubleClick() && screen == 2){
-    increaseTally();
-    showTallyNum();
-  }
-  if(btnAction.isLongClick() && screen == 2){
-    resetTally();
-    showTallyNum();
+  if(btnAction.isClick() && screen == 5){
+     updatePmColorVar();
   }
   
   while (client.available())
@@ -263,7 +270,7 @@ void renderCurrentScreen(){
     showNetworkScreen();
   } else if (screen == 2) {
     showTallyNum();
-  } else if (screen == 5) {
+  } else if (screen == 10) {
     showAPScreen();
   }
 }

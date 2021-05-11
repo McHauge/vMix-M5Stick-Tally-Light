@@ -10,7 +10,7 @@
 #include <WebServer.h>
 #include <Preferences.h>
 #include "plugins/LED_HAT.h";
-//#include "l_PLUGINMANAGER.h";
+//#include "M_PLUGINMANAGER.h";
 
 #define LED_BUILTIN 10
 

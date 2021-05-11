@@ -1,5 +1,5 @@
 void showPmModeScreen(){
-  Serial.println("Showing Matrix screen");
+  Serial.println("Showing Matrix Mode Screen");
   screen = 4;
   screenRotation = 3;
   M5.Lcd.setRotation(3);
