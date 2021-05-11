@@ -2,8 +2,7 @@ bool stm = 0;
 bool rec = 0;
 
 // Connect to vMix instance
-boolean connectTovMix(bool recursive)
-{
+boolean connectTovMix(bool recursive) {
   resetScreen();
   Serial.println("Connecting to vMix...");
   M5.Lcd.println("Connecting to vMix...");
@@ -114,7 +113,6 @@ void setTallyProgram()
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-//  ledHat.setLive();
 }
 
 void setTallyPreview() {
@@ -136,7 +134,6 @@ void setTallyPreview() {
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-//  ledHat.setPreview();
 }
 
 void setTallyOff() {
@@ -158,12 +155,10 @@ void setTallyOff() {
     posTallyNums();
     M5.Lcd.println(TALLY_NR);
   }
-//  ledHat.setSafe();
 }
 
 // Handle incoming data
-void handleData(String data)
-{
+void handleData(String data) {
   bool changed = false;
   bool tallyChange = false;
   // Check if server data is tally data
@@ -289,20 +284,33 @@ void renderCurentMatrix() {
       case '0': ledHat.setSafe(); break;
       case '1': ledHat.setLive(); break;
       case '2': ledHat.setPreview(); break;
-      default: ledHat.setSafe();
+      default:  ledHat.setSafe();
     }
   } else {
     switch (currentState){
       case '1': ledHat.setLive(); break;
-      default: ledHat.setSafe();
+      default:  ledHat.setSafe();
     }
   }
 
+  // Set LED Matrix Text Color
+  if (PGM_NR == TALLY_NR ||PVW_NR == TALLY_NR) {
+    ledHat.textColor(255, 255, 255);
+  } else {
+    switch (PM_MODE){
+      case 0:  ledHat.textColor(255, 255, 255); break;
+      case 1:  ledHat.textColor(255, 0, 0);     break;
+      case 2:  ledHat.textColor(0, 255, 0);     break;
+      default: ledHat.textColor(255, 255, 255); break;
+    }    
+  }
+
+  // Set LED Matrix Text
   switch (PM_MODE){
-    case 0: ledHat.textColor(255, 255, 255);  ledHat.showNumber(TALLY_NR, screenRotation); break;
-    case 1: ledHat.textColor(255, 0, 0);      ledHat.showNumber(PGM_NR, screenRotation);   break;
-    case 2: ledHat.textColor(0, 255, 0);      ledHat.showNumber(PVW_NR, screenRotation);   break;
-    default: ledHat.textColor(255, 255, 255); ledHat.showNumber(0, screenRotation);        break;
+    case 0:  ledHat.showNumber(TALLY_NR, screenRotation); break;
+    case 1:  ledHat.showNumber(PGM_NR, screenRotation);   break;
+    case 2:  ledHat.showNumber(PVW_NR, screenRotation);   break;
+    default: ledHat.showNumber(0, screenRotation);        break;
   }
   ledHat.showDisp();  // Show the LED Matrix Display
 }

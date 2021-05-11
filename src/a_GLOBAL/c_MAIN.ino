@@ -4,7 +4,7 @@ WebServer server(80);  // Object of WebServer(HTTP port, 80 is defult)
 PinButton btnM5(37);
 PinButton btnAction(39);
 
-M5TallyLEDHat ledHat;
+M5TallyLEDHat ledHat; // Load module for the NEO-Pixel LED Matrix Hat
 //PluginManager pm; // Became to compersome to maintain two identical layouts 
 
 char currentState = -1;
@@ -62,6 +62,8 @@ void loop()
     } else if (screen == 2) {
       showBrightnessScreen();
     } else if (screen == 3) {
+      showPmModeScreen();
+    } else if (screen == 4) {
       showTallyScreen();
     }
   }
@@ -123,6 +125,10 @@ void loop()
 
   if(btnAction.isClick() && screen == 3){
      updateBrightnessVar();
+  }
+
+  if(btnAction.isClick() && screen == 4){
+     updatePmModeVar();
   }
 
   if(btnAction.isDoubleClick() && screen == 2){
@@ -257,7 +263,7 @@ void renderCurrentScreen(){
     showNetworkScreen();
   } else if (screen == 2) {
     showTallyNum();
-  } else if (screen == 4) {
+  } else if (screen == 5) {
     showAPScreen();
   }
 }

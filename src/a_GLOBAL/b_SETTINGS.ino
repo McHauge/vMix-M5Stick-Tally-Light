@@ -92,6 +92,12 @@ void saveBrightness(){
   preferences.end();
 }
 
+void savePmMode(){
+  preferences.begin("vMixTally", false);
+  preferences.putUInt("pmmode", PM_MODE);
+  preferences.end();
+}
+
 // Print settings
 void printSettings()
 {
