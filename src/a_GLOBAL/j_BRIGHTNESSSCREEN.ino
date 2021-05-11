@@ -7,12 +7,14 @@ void showBrightnessScreen(){
   if(BRIGHTNESS == 7){
     percentage = 0;
   } else if(BRIGHTNESS == 8){
-    percentage = 20;
+    percentage = 10;
   } else if(BRIGHTNESS == 9){
-    percentage = 40;
+    percentage = 20;
   } else if(BRIGHTNESS == 10){
-    percentage = 60;
+    percentage = 40;
   } else if(BRIGHTNESS == 11){
+    percentage = 60;
+  } else if(BRIGHTNESS == 12){
     percentage = 80;
   }
   resetScreen();
@@ -33,7 +35,7 @@ void showBrightnessScreen(){
 }
 
 void updateBrightnessVar(){
-  if(BRIGHTNESS == 12){
+  if(BRIGHTNESS == 13){
     BRIGHTNESS = 7;
   } else if(BRIGHTNESS == 7){
     BRIGHTNESS = 8;
@@ -45,9 +47,11 @@ void updateBrightnessVar(){
     BRIGHTNESS = 11;
   } else if(BRIGHTNESS == 11){
     BRIGHTNESS = 12;
+  } else if(BRIGHTNESS == 12){
+    BRIGHTNESS = 13;
   } else {
     //If for some reason the value is different, default back to 100% brightness (12)
-    BRIGHTNESS = 12;
+    BRIGHTNESS = 13;
   }
   updateBrightness();
   showBrightnessScreen();
@@ -58,12 +62,14 @@ void setPluginBrightness() {
   if(BRIGHTNESS == 7){
     pluginBrightness = 0;
   } else if(BRIGHTNESS == 8){
-    pluginBrightness = 20;
+    pluginBrightness = 10;
   } else if(BRIGHTNESS == 9){
-    pluginBrightness = 40;
+    pluginBrightness = 20;
   } else if(BRIGHTNESS == 10){
-    pluginBrightness = 60;
+    pluginBrightness = 40;
   } else if(BRIGHTNESS == 11){
+    pluginBrightness = 60;
+  } else if(BRIGHTNESS == 12){
     pluginBrightness = 80;
   }
   ledHat.brightness(pluginBrightness);
