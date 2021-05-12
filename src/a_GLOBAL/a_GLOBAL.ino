@@ -1,4 +1,5 @@
 #define C_PLUS 0 //CHANGE TO 1 IF YOU USE THE M5STICK-C PLUS
+// LCD has a resolution of: 80×160
 
 #if C_PLUS == 1
 #include <M5StickCPlus.h>
@@ -11,9 +12,11 @@
 #include <Preferences.h>
 #include "plugins/LED_HAT.h";
 //#include "M_PLUGINMANAGER.h";
+#include "z_QR_CODES.h" // Header for xbm images
 
 #define LED_BUILTIN 10
 
+extern uint8_t QR_CODE[]; // Wifi QR Code
 int tnlen = 1; //LET THIS BE
 
 Preferences preferences;
