@@ -27,6 +27,8 @@ void loadSettings()
   PM_MODE = preferences.getUInt("pmmode", PM_MODE);
   PM_COLOR = preferences.getUInt("pmcolor", PM_COLOR);
   JUSTLIVE = preferences.getUInt("justLive") || JUSTLIVE;
+  VMIX_CUSTOM_ENABLE = preferences.getUInt("customenable") || VMIX_CUSTOM_ENABLE;
+  VMIX_CUSTOM_PORT = preferences.getUInt("vmixcustomport", VMIX_CUSTOM_PORT);
 
   if(preferences.getString("m_tally").length() > 0){
     M_TALLY = preferences.getString("m_tally");
@@ -102,6 +104,18 @@ void savePmMode(){
 void savePmColor(){
   preferences.begin("vMixTally", false);
   preferences.putUInt("pmcolor", PM_COLOR);
+  preferences.end();
+}
+
+void saveVmixCustomEnable(){
+  preferences.begin("vMixTally", false);
+  preferences.putUInt("customenable", VMIX_CUSTOM_ENABLE);
+  preferences.end();
+}
+
+void saveVmixCustomPort(){
+  preferences.begin("vMixTally", false);
+  preferences.putUInt("vmixcustomport", VMIX_CUSTOM_PORT);
   preferences.end();
 }
 

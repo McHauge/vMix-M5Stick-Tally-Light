@@ -1,3 +1,5 @@
+// For Vmix Intergration
+
 bool stm = 0;
 bool rec = 0;
 
@@ -7,7 +9,12 @@ boolean connectTovMix(bool recursive) {
   Serial.println("Connecting to vMix...");
   M5.Lcd.println("Connecting to vMix...");
 
-  if (client.connect(&(VMIX_IP[0]), VMIX_PORT))
+  int TCP_PORT = VMIX_PORT;
+  if (VMIX_CUSTOM_ENABLE == 1) { // Use custom port if enabled in web UI
+    TCP_PORT = VMIX_CUSTOM_PORT;    
+  }
+
+  if (client.connect(&(VMIX_IP[0]), TCP_PORT))
   {
     connectedTovMix = true;
     M5.Lcd.println("Connected to vMix!");
@@ -46,7 +53,13 @@ boolean connectTovMix(bool recursive) {
 void singleReconnect() {
   resetScreen();
   M5.Lcd.println("Connecting to vMix...");
-  if (client.connect(&(VMIX_IP[0]), VMIX_PORT))
+
+  int TCP_PORT = VMIX_PORT;
+  if (VMIX_CUSTOM_ENABLE == 1) { // Use custom port if enabled in web UI
+    TCP_PORT = VMIX_CUSTOM_PORT;    
+  }
+
+  if (client.connect(&(VMIX_IP[0]), TCP_PORT))
   {
     lastConnCheck = millis();
     connectedTovMix = true;
@@ -93,8 +106,7 @@ void posTallyNums() {
   }
 }
 
-void setTallyProgram()
-{
+void setTallyProgram() {
   //  digitalWrite(LED_BUILTIN, LOW);
   M5.Lcd.fillScreen(RED);
   M5.Lcd.setTextColor(WHITE, RED);

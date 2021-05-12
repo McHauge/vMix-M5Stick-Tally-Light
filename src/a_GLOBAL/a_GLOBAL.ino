@@ -14,10 +14,7 @@
 //#include "M_PLUGINMANAGER.h";
 
 #define LED_BUILTIN 10
-
-extern uint8_t QR_CODE[]; // Wifi QR Code
 int tnlen = 1; //LET THIS BE
-
 Preferences preferences;
 
 // DON'T CHANGE THESE VARIABLES, YOU CAN CHANGE THEM IN THE WEB UI
@@ -25,7 +22,9 @@ String WIFI_SSID = "";
 String WIFI_PASS = "";
 String VMIX_IP = "";
 String M_TALLY = "";  // Store Tally numbers when following more that one input
-int VMIX_PORT = 8099; // USES THE TCP API PORT, THIS IS FIXED IN VMIX
+int VMIX_PORT = 8099; // USES THE TCP API PORT, THIS IS FIXED IN VMIX TO PORT: 8099
+int VMIX_CUSTOM_ENABLE = 0;   // Enable = 1 or Disable = 0 the use of the custom vMix port
+int VMIX_CUSTOM_PORT = 8099;  // vMix Custom Port for use with advanced routing or emulator software, like tally arbiter running on the same PC as vMix
 int TALLY_NR = 1;     // Stores Selected Tally to Follow
 int PGM_NR = 0;       // Global variable for storing what curently on PGM (Program)
 int PVW_NR = 0;       // Global variable for storing what curently on PVW (Preview)
@@ -36,4 +35,4 @@ int PM_MODE = 0;      // Sets the Plugin display mode, 0 = Selected Camera NR, 1
 int PM_COLOR = 0;     // Sets the Plugin Colors ON or Off, mostly for text colors
 int JUSTLIVE = 0;     // When 1, SAFE and PRE are not used. Just the LIVE screen
 
-String semver = "2.4.1"; // Software Version Number
+String semver = "2.4.2"; // Software Version Number

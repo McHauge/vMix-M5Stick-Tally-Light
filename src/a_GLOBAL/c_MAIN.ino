@@ -35,7 +35,8 @@ String rssiLabel = "";
 void setup()
 {
   uint8_t c;
-  setCpuFrequencyMhz(80); //Thanks Irvin Cee
+  setCpuFrequencyMhz(80); //Save battery by turning down the CPU clock, Thanks Irvin Cee
+  btStop();               //Save battery by turning off BlueTooth
   Serial.begin(115200);
   M5.begin();
   M5.IMU.Init();
