@@ -126,8 +126,9 @@ void handle_save()
   if (conn_int != "")
   {
     CONN_INT = std::atoi(conn_int.c_str());
-    preferences.putUInt("conn_int", CONN_INT);
-    Serial.println("PUT CONN INT");
+    preferences.putUInt("connint", CONN_INT);
+    Serial.print("PUT CONN INT: ");
+    Serial.println(CONN_INT);
   }
 
   if (server.arg("vmixip") != "")

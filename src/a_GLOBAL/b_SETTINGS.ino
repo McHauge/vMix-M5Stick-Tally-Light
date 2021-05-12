@@ -22,13 +22,16 @@ void loadSettings()
     }
   }
 
-  CONN_INT = preferences.getUInt("conn_int") || CONN_INT;
+  CONN_INT = preferences.getUInt("connint", CONN_INT) ;
   MODE = preferences.getUInt("mode") || MODE;
   PM_MODE = preferences.getUInt("pmmode", PM_MODE);
   PM_COLOR = preferences.getUInt("pmcolor", PM_COLOR);
   JUSTLIVE = preferences.getUInt("justLive") || JUSTLIVE;
   VMIX_CUSTOM_ENABLE = preferences.getUInt("customenable") || VMIX_CUSTOM_ENABLE;
   VMIX_CUSTOM_PORT = preferences.getUInt("vmixcustomport", VMIX_CUSTOM_PORT);
+  Serial.print("PUT CONN INT: ");
+  Serial.println(CONN_INT);
+
 
   if(preferences.getString("m_tally").length() > 0){
     M_TALLY = preferences.getString("m_tally");
@@ -64,8 +67,12 @@ void resetSettings(){
   preferences.putString("wifi_pass", "");
   preferences.putString("vmix_ip", "");
   preferences.putUInt("tally", 1);
-  preferences.putUInt("bright", 12);
+  preferences.putUInt("bright", 13);
   preferences.putString("m_tally", "");
+  preferences.putUInt("customenable", 0);
+  preferences.putUInt("vmixcustomport", 8099);
+  preferences.putUInt("pmmode", 0);
+  preferences.putUInt("pmcolor", 0);
   
   preferences.end();
 
