@@ -12,7 +12,6 @@
 #include <Preferences.h>
 #include "plugins/LED_HAT.h";
 //#include "M_PLUGINMANAGER.h";
-#include "z_QR_CODES.h" // Header for xbm images
 
 #define LED_BUILTIN 10
 

@@ -6,15 +6,6 @@ void showAPScreen()
   Serial.println("Showing Access Point Screen");
   screen = 10;
 
-//  int x = random(M5.Lcd.width()  - wifiCodeWidth);
-//  int y = random(M5.Lcd.height() - wifiCodeHeight);
-//  int x = 20;
-//  int y = 20;
-
-
-//  M5.Lcd.fillScreen(WHITE);
-//  M5.Lcd.drawXBitmap(x, y, wifiCode, wifiCodeWidth, wifiCodeHeight, TFT_BLACK);
-
   renderBatteryLevel();
   M5.Lcd.println();
   M5.Lcd.println("Unable to connect to WiFi");
