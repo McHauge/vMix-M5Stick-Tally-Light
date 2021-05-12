@@ -20,4 +20,6 @@ void showNetworkScreen() {
   M5.Lcd.print(" dBm (");
   M5.Lcd.print(rssiLabel);
   M5.Lcd.println(")");
+  M5.Lcd.println();
+  M5.Lcd.println("v"+semver);
 }
